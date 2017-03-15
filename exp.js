@@ -81,10 +81,10 @@
             tooltip.transition()		
               .duration(500)		
               .style('opacity', .9)
-              .style('left', `${d3.event.pageX}px`)
+              .style('left', `${d3.event.pageX - 250}px`)
               .style('top', `${d3.event.pageY - 28}px`);
 
-            tooltip.html(`${d['Date']} <br/> ${d['Lat']}`);
+            tooltip.html(`Date : ${d['Date']} ,Lat :${d['Lat']}`);
           })					
         .on('mouseout', d => {
             tooltip.transition()		
