@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>xFi Performance</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="./exp.js"></script>
+
+    <style>
+      div.tooltip {	
+        position: absolute;
+        top: 0;
+        left: 0;		
+        text-align: center;			
+        width: auto;					
+        height: 28px;					
+        padding: 2px;				
+        font: 12px sans-serif;		
+        background: lightsteelblue;	
+        border: 0px;		
+        border-radius: 2px;		
+        pointer-events: none;			
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class='container-fluid' style='margin-top: 20px'>
+      <div class='row'>
+        <div class='col-md-2'>
+          <div class='legends'></div>
+        </div>
+        <div class='col-md-10'>
+          <div id='chart-container'>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
