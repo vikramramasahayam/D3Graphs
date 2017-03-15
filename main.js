@@ -1,7 +1,6 @@
 (function () {
 
   function renderLineCharts(data, container = 'body', config = {}) {
-    debugger;
     let chartData = data.filter(datum => !datum.isDisabled);
     const containerWidth = config.width || 900;
     const containerHeight = config.height || 400;
@@ -42,14 +41,16 @@
 
     chartContainer
       .append('g')
+      .classed('x-axis', true)
       .attr('transform', `translate(0, ${chartHeight})`)
       .call(d3.axisBottom(x));
 
     chartContainer
       .append('g')
+      .classed('y-axis', true)
       .call(d3.axisLeft(y))
     .append('text')
-      .attr('fill', '#000')
+      .attr('fill', '#fff')
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
       .attr('dy', '0.71em')
@@ -67,7 +68,7 @@
         .attr('stroke-width', config.strokeWidth || 1.5)
         .attr('d', line);
 
-        // Add the scatterplot
+      // Add the scatterplot
       chartContainer.append('g')
         .selectAll('dot')
         .data(datum.values)
@@ -93,25 +94,34 @@
     });
   } 
     //Rendering Legends
-    d3.select('div.legends')
-      .selectAll('div.legend')
+    let activeFilters = data.filter(datum => !datum['isDisabled'])
+      .map(datum => datum.key);
+    
+
+    d3.select('#legends')
+      .append('ul')
+      .classed('list-group', true)
+      .selectAll('li.list-group-item')
       .data(data.map(datum => datum.key))
       .enter()
-      .append('div')
-      .classed('legend', true)
-      .html(datum => datum)
+      .append('li')
+      .classed('list-group-item', true)
+      .html(datum => {
+        if (activeFilters.indexOf(datum) > -1)
+          return `<span class="glyphicon glyphicon-check" aria-hidden="true"></span> ${datum}`;
+        else
+          return `<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> ${datum}`;
+      })
       .on('click', d => {
         d3.select(container).selectAll('*').remove();
-        d3.select('div.legends').selectAll('*').remove();
-
+        d3.select('#legends').selectAll('*').remove();
         let newChartData = data.map(datum => {
-          
-          if (datum.key === d)
-            datum['isDisabled'] = false;
+          if (datum.key === d) {
+            datum['isDisabled'] = !datum['isDisabled'];
+            return datum;
+          }
           else
-            datum['isDisabled'] = true;
-          
-          return datum;
+            return datum;
         });
 
         renderLineCharts(newChartData, container, config);
@@ -128,4 +138,5 @@
     console.log(chartData);
     renderLineCharts(chartData, '#chart-container');
   });
+
 })();
