@@ -74,7 +74,8 @@
         .selectAll('dot')
         .data(datum.values)
         .enter()
-        .append('circle')
+        .append('circle').
+        style('opacity',0)
         .attr('r', 5)
         .attr('cx', d => x(d['date']))
         .attr('cy', d => y(parseInt(d['time'])))
