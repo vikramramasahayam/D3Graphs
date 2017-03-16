@@ -36,7 +36,7 @@
   // Define the div for the tooltip
     let tooltip = d3.select(container)
       .append("div")	
-      .attr("class", "tooltip")				
+      .attr("class", "tooltip")		
       .style("opacity", 0);
 
     chartContainer
@@ -82,10 +82,10 @@
             tooltip.transition()		
               .duration(500)		
               .style('opacity', .9)
-              .style('left', `${d3.event.pageX}px`)
-              .style('top', `${d3.event.pageY - 28}px`);
+              .style('left', `${d3.event.pageX - 400}px`)
+              .style('top', `${d3.event.pageY - 100}px`);
 
-            tooltip.html(`${d['date']} <br/> ${d['time']}`);
+            tooltip.html(`Event : ${d['event']}<br/>Date : ${d['date']} ,Time :${d['time']}`);
           })					
         .on('mouseout', d => {
             tooltip.transition()		
