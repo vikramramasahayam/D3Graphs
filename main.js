@@ -2,8 +2,8 @@
 
   function renderLineCharts(data, container = 'body', config = {}) {
     let chartData = data.filter(datum => !datum.isDisabled);
-    const containerWidth = config.width || 900;
-    const containerHeight = config.height || 400;
+    const containerWidth = config.width || 1000;
+    const containerHeight = config.height || 500;
     const margin = config.margin || { top: 20, right: 20, bottom: 30, left: 50 };
     
     if (chartData.length) {
@@ -22,15 +22,15 @@
 
     let x = d3.scalePoint()
       .rangeRound([0, chartWidth])
-      .domain(chartData[0].values.map(datum => datum['Date'] ));
+      .domain(chartData[0].values.map(datum => datum['date'] ));
 
     let y = d3.scaleLinear()
       .rangeRound([chartHeight, 0])
-      .domain([0, d3.max(chartData, datum => d3.max(datum.values, (value) => parseInt(value['Lat'])))]);
+      .domain([0, d3.max(chartData, datum => d3.max(datum.values, (value) => parseInt(value['time'])))]);
     
     let line = d3.line()
-      .x(d => x(d['Date']))
-      .y(d => y(parseInt(d['Lat'])));
+      .x(d => x(d['date']))
+      .y(d => y(parseInt(d['time'])));
     
 
   // Define the div for the tooltip
@@ -55,7 +55,7 @@
       .attr('y', 6)
       .attr('dy', '0.71em')
       .attr('text-anchor', 'end')
-      .text('Lat');
+      .text('time');
     
     chartData.forEach((datum) => {
       chartContainer
@@ -75,8 +75,8 @@
         .enter()
         .append('circle')
         .attr('r', 5)
-        .attr('cx', d => x(d['Date']))
-        .attr('cy', d => y(parseInt(d['Lat'])))
+        .attr('cx', d => x(d['date']))
+        .attr('cy', d => y(parseInt(d['time'])))
         .on('mouseover', d => {
             tooltip.transition()		
               .duration(500)		
@@ -84,7 +84,7 @@
               .style('left', `${d3.event.pageX}px`)
               .style('top', `${d3.event.pageY - 28}px`);
 
-            tooltip.html(`${d['Date']} <br/> ${d['Lat']}`);
+            tooltip.html(`${d['date']} <br/> ${d['time']}`);
           })					
         .on('mouseout', d => {
             tooltip.transition()		
@@ -128,12 +128,12 @@
       });
   }
 
-  d3.csv('./Wifi_data.csv',(err, data) => {
+  d3.csv('./Performance_DummyData.csv',(err, data) => {
     if (err)
       return err;  
 
     let chartData = d3.nest()
-      .key(datum => datum['Event'])
+      .key(datum => datum['event'])
       .entries(data);
     console.log(chartData);
     renderLineCharts(chartData, '#chart-container');
