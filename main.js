@@ -57,12 +57,13 @@
       .attr('text-anchor', 'end')
       .text('time');
     
-    chartData.forEach((datum) => {
+    chartData.forEach((datum,i) => {
+      // console.log("Key is :"+datum.key);
       chartContainer
         .append('path')
         .datum(datum.values)
         .attr('fill', 'none')
-        .attr('stroke', config.lineColor || 'steelblue')
+        .attr('stroke', config.lineColor[i] || 'steelblue')
         .attr('stroke-linejoin', config.lineJoin || 'round')
         .attr('stroke-linecap', config.lineCap || 'round')
         .attr('stroke-width', config.strokeWidth || 1.5)
@@ -136,7 +137,7 @@
       .key(datum => datum['event'])
       .entries(data);
     console.log(chartData);
-    renderLineCharts(chartData, '#chart-container');
+    renderLineCharts(chartData, '#chart-container',{lineColor : ['red','yellow','green','blue']});
   });
 
 })();
