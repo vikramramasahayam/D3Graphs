@@ -57,13 +57,13 @@
       .attr('text-anchor', 'end')
       .text('time');
     
-    chartData.forEach((datum,i) => {
+    chartData.forEach((datum) => {
       // console.log("Key is :"+datum.key);
       chartContainer
         .append('path')
         .datum(datum.values)
         .attr('fill', 'none')
-        .attr('stroke', config.lineColor[i] || 'steelblue')
+        .attr('stroke', config.colorMap[datum.key] || 'steelblue')
         .attr('stroke-linejoin', config.lineJoin || 'round')
         .attr('stroke-linecap', config.lineCap || 'round')
         .attr('stroke-width', config.strokeWidth || 1.5)
@@ -112,7 +112,7 @@
           return `<span class="glyphicon glyphicon-check" aria-hidden="true"></span> ${datum}`;
         else
           return `<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> ${datum}`;
-      })
+      })  
       .on('click', d => {
         d3.select(container).selectAll('*').remove();
         d3.select('#legends').selectAll('*').remove();
@@ -137,7 +137,16 @@
       .key(datum => datum['event'])
       .entries(data);
     console.log(chartData);
-    renderLineCharts(chartData, '#chart-container',{lineColor : ['red','yellow','green','blue']});
+
+    let lineColor = ["red","yellow","green","blue","white"];
+    let colorMap = new Object();
+    chartData.forEach((entry,i) => {
+      colorMap[entry.key] = lineColor[i];
+    } )
+
+    //console.log(colorMap);
+
+    renderLineCharts(chartData, '#chart-container',{colorMap});
   });
 
 })();
