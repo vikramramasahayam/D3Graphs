@@ -3,7 +3,7 @@
   function renderLineCharts(data, container = 'body', config = {}) {
     let chartData = data.filter(datum => !datum.isDisabled);
     const containerWidth = config.width || 1000;
-    const containerHeight = config.height || 500;
+    const containerHeight = config.height || 600;
     const margin = config.margin || { top: 20, right: 20, bottom: 30, left: 50 };
     
     if (chartData.length) {
@@ -109,10 +109,12 @@
       .append('li')
       .classed('list-group-item', true)
       .html(datum => {
-        if (activeFilters.indexOf(datum) > -1)
-          return `<span class="glyphicon glyphicon-check" aria-hidden="true"></span> ${datum}`;
-        else
+        if (activeFilters.indexOf(datum) > -1){
+          return `<span class="glyphicon glyphicon-check" style="color:${config.colorMap[datum]}" aria-hidden="true"></span> ${datum}`;
+      }
+        else{
           return `<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> ${datum}`;
+        }
       })  
       .on('click', d => {
         d3.select(container).selectAll('*').remove();
@@ -139,7 +141,7 @@
       .entries(data);
     console.log(chartData);
 
-    let lineColor = ["red","yellow","green","blue","white"];
+    let lineColor = ["red","yellow","green","blue","white","steelblue"];
     let colorMap = new Object();
     chartData.forEach((entry,i) => {
       colorMap[entry.key] = lineColor[i];
