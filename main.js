@@ -41,11 +41,13 @@
       .style("opacity", 0)
       .style("padding", '2px');
 
+    let xAxisTickValues = chartData[0].values.filter((datum, i) => i % 2).map(datum => datum['date']);
+
     chartContainer
       .append('g')
       .classed('x-axis', true)
       .attr('transform', `translate(0, ${chartHeight})`)
-      .call(d3.axisBottom(x).ticks(2))
+      .call(d3.axisBottom(x).tickValues(xAxisTickValues))
       .append('text')
       .attr('fill', '#fff')
       .attr('x', chartWidth / 2)
@@ -67,7 +69,7 @@
       .attr('dy', '-0.71em')
       .attr('text-anchor', 'middle')
       .style('font-size', '16')
-      .text('time');
+      .text('Response Time(m/s)');
     
     chartData.forEach((datum, i) => {
       chartContainer
@@ -144,33 +146,33 @@
       });
     
     //Rendering Select All Button
-    d3.select('#filters .list-group')
-      .insert('li', ':first-child')
-      .classed('list-group-item', true)
-      .html(`<span class="glyphicon ${config.isSelectAll?'glyphicon-check':'glyphicon-unchecked'}" aria-hidden="true"></span>All`)
-      .on('click', d => {
-          let target = d3.select(d3.event.target); 
-       if (target.select('span.glyphicon').classed("glyphicon-check")) {
-          d3.select(container).selectAll('*').remove();
-          d3.select('#filters').selectAll('*').remove();
-          d3.select('#legends').selectAll('*').remove();
+    $('#filters .list-group')
+      .prepend('<li class="list-group-item"></li>')
+      .children('li:nth-child(1)')
+      .html(`<span class="glyphicon ${(chartData.length === data.length) ? 'glyphicon-check' : 'glyphicon-unchecked'}" aria-hidden="true"></span>All`)
+      .on('click', function(e) {
+
+        if ($(this).find('span').hasClass("glyphicon-check")) {
+          $(container).empty();
+          $('#filters').empty();
+          $('#legends').empty();
           
           let newChartData = data.map(datum => {
             datum['isDisabled'] = true;
             return datum;
           });
-          renderLineCharts(newChartData, container, Object.assign(config, {isSelectAll: false}));
+          renderLineCharts(newChartData, container, config);
 
         } else {
-          d3.select(container).selectAll('*').remove();
-          d3.select('#filters').selectAll('*').remove();
-          d3.select('#legends').selectAll('*').remove();
+          $(container).empty();
+          $('#filters').empty();
+          $('#legends').empty();
           
           let newChartData = data.map(datum => {
             datum['isDisabled'] = false;
             return datum;
           });
-          renderLineCharts(newChartData, container, Object.assign(config, {isSelectAll: true}));
+          renderLineCharts(newChartData, container, config);
 
         }
       });
@@ -204,7 +206,6 @@
     } )
 
     renderLineCharts(chartData, '#chart-container', {
-      isSelectAll: true,
       colorMap
     });
   });
