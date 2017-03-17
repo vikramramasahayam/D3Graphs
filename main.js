@@ -95,8 +95,8 @@
             tooltip.transition()		
               .duration(300)		
               .style('opacity', .9)
-              .style('left', `${d3.event.pageX - 400}px`)
-             .style('top', `${d3.event.pageY - 100}px`)
+              .style('left', `${d3.event.pageX - 100}px`)
+             .style('top', `${d3.event.pageY - 70}px`)
             .style('border', `1px solid ${config.colorMap[d]}`);
 
             tooltip.html(`Event : ${d['event']}<br/>Date : ${d['date']} ,Time :${d['time']}`);
@@ -147,10 +147,10 @@
     d3.select('#filters .list-group')
       .insert('li', ':first-child')
       .classed('list-group-item', true)
-      .html(`<span class="glyphicon ${config.isSelectAll ? 'glyphicon-check' : 'glyphicon-unchecked'}" aria-hidden="true"></span>All`)
+      .html(`<span class="glyphicon ${config.isSelectAll?'glyphicon-check':'glyphicon-unchecked'}" aria-hidden="true"></span>All`)
       .on('click', d => {
-        let target = d3.select(d3.event.target);
-        if (target.select('span.glyphicon').classed("glyphicon-check")) {
+          let target = d3.select(d3.event.target); 
+       if (target.select('span.glyphicon').classed("glyphicon-check")) {
           d3.select(container).selectAll('*').remove();
           d3.select('#filters').selectAll('*').remove();
           d3.select('#legends').selectAll('*').remove();
