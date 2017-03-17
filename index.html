@@ -30,10 +30,11 @@
         background: black;
       }
 
-      #legends li{
+      #legends li, #filters li{
         background-color: black;
         border-color: black;
         color: white;
+        padding: 0 0 5px 15px;
       }
 
       .x-axis path, .x-axis line, .y-axis path, .y-axis line{
@@ -52,16 +53,26 @@
 
   <body>
     <div class='container-fluid'>
-      <div class="panel panel-default">
+      <div class="panel panel-default" style="background-color: black">
+        <!--
         <div class="panel-heading" style="background-color: black; color: white">
-          <h3 style='text-align: center'>Your Wifi</h3>
+          <h3 style='text-align: center'>Your Wifi</h3> 
         </div>
+    -->
         <div class="panel-body">
           <div class='row'>
-            <div class='col-md-3'>
-              <div id='legends' style="background-color: black">
-                <h3 style="text-align: center; color: white; text-decoration: underline;">Events</h3>
-              </div>
+            <div class='col-md-3' style="border-right: 1px solid white; height: 100%"> 
+              <h4 style="background-color: black; 
+                margin-left: 10px; 
+                color: white; 
+                text-decoration: underline;">Events</h4>
+              <div id='filters' style="background-color: black"></div>
+
+              <h4 style="background-color: black; 
+                margin-left: 10px; 
+                color: white; 
+                text-decoration: underline;">Legends</h4>
+              <div id='legends' style="background-color: black"></div>
             </div>
 
             <div class='col-md-9'>
